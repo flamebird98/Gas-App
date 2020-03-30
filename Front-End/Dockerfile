@@ -1,3 +1,9 @@
-# Author: Freddy Roa-Familia
-FROM httpd:2.4.41-alpine
-COPY ./html/ /usr/local/apache2/htdocs/
+FROM node:latest
+WORKDIR /app
+COPY package.json /app
+COPY /js /app
+COPY /html /app
+RUN npm install
+COPY . /app
+EXPOSE 5000
+CMD node server.js
