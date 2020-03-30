@@ -6,7 +6,7 @@ var path = require("path");
 app.get('/', function (req, res) {
  res.sendFile(path.join(__dirname+'/index.html'));
 });
-//Launch listening server on port 8081
+//Launch listening server on port 5000
 app.listen(5000, function () {
   console.log('app listening on port 5000!')
 })
