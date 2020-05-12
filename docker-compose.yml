@@ -6,14 +6,27 @@ services:
     build: ./Front-End
     depends_on:
       - messaging
+    command: ["/wait-for-it.sh", "messaging:5672","--strict", "--", "flask", "run", "--host=0.0.0.0"]
     ports:
       - 5000:5000
+    environment:
+      FLASK_ENV: development
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+    tty:
+      true
+    volumes:
+      - "./Front-End:/Front-End"
+    restart: always
 
   messaging:
     build: ./Messaging
     ports:
       - 5672:5672 # Default port for RabbitMQ message broker
       - 15672:15672 # Default port for RabbitMQ GUI
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
 
   back_end:
     build: ./Back-End
